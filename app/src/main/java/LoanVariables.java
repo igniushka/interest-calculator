@@ -6,5 +6,4 @@ public record LoanVariables(Date startDate,
                             String currency,
                             Double baseInterestRate,
                             Double marginRate) {
-
 }

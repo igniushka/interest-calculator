@@ -40,7 +40,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "InterestCalculator"
+    mainClass = "App"
 }
 
 tasks.named<Test>("test") {

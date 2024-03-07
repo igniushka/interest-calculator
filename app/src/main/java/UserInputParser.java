@@ -6,7 +6,7 @@ import java.util.Date;
 public class UserInputParser {
     public static LoanVariables parseLoanVariables(String userInput) throws BadInputException{
         String[] variables = userInput.split("\\s+");
-        if (variables.length != 7){
+        if (variables.length != 6){
             throw new BadInputException("Invalid number of arguments provided.");
         }
         try{
