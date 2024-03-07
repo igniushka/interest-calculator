@@ -22,4 +22,7 @@ public class LoanCache {
     public LoanVariables getSelectedRecord() {
         return this.selectedRecord;
     }
+    public void selectByIndex(int index) {
+        this.setSelectedRecord(loanHistory.get(index));
+    }
 }

@@ -7,29 +7,9 @@ import java.util.Scanner;
 
 public class UserIOService {
     private static final Scanner scanner = new Scanner(System.in);
-    public static LoanVariables parseLoanVariables(String userInput) throws BadInputException{
-        String[] variables = userInput.split("\\s+");
-        if (variables.length != 6){
-            throw new BadInputException("Invalid number of arguments provided.");
-        }
-        try{
-            Date startDate = DateUtils.parseDate(variables[0]);
-            Date endDate = DateUtils.parseDate(variables[1]);
-            Double loan = Double.parseDouble(variables[2]);
-            String currency = variables[3];
-            Double baseInterestRate = Double.parseDouble(variables[4]);
-            Double marginRate = Double.parseDouble(variables[5]);
-            return new LoanVariables(startDate, endDate, loan, currency, baseInterestRate, marginRate);
-        } catch (ParseException e) {
-            throw new BadInputException("Could not parse start or end dates.");
-        } catch (NumberFormatException e){
-            throw new BadInputException("Base interest and margin rates need to be type double");
-        }
-    }
-
     static String onStart(){
         System.out.println();
-        System.out.println("To calculate a new loan type 'n' \nTo view loan history type 'h' \nto quit type 'q'");
+        System.out.println("To calculate a new loan enter 'n' \nTo view loan history enter 'h' \nto quit enter 'q'");
         return scanner.nextLine();
     }
     static String onNewLoan(){
@@ -40,9 +20,38 @@ public class UserIOService {
                 2: End Date ("%s"),\s
                 3: Loan Amount (number)\s
                 4: Loan Currency (string)\s
+                5: Base Interest Rate Percent (number)\s
+                6: Margin Percent (number)%n""", Constants.DATE_FORMAT, Constants.DATE_FORMAT);
+        System.out.println("Alternatively,to view loan history enter 'h' to quit enter 'q'");
+        return scanner.nextLine();
+    }
+
+    static String onSelectedVariables(LoanVariables loanVariables){
+        System.out.println();
+        System.out.println("+------------+------------+-------------------+----------+---------------+-----------+");
+        System.out.println("| Start      | End        | Loan              | Currency | Base Interest | Margin    |");
+        System.out.println("| Date       | Date       | Amount            |          | Rate Percent  | Percent   |");
+        System.out.println("+------------+------------+-------------------+----------+---------------+-----------+");
+        System.out.printf("| %-10s | %-10s | %-17.2f | %-8s | %-13.2f | %-9.2f |\n",
+                DateUtils.formattedDate(loanVariables.startDate()),
+                DateUtils.formattedDate(loanVariables.endDate()),
+                loanVariables.loan(),
+                loanVariables.currency(),
+                loanVariables.baseInterestRate(),
+                loanVariables.marginRate());
+        System.out.println("+-------+------------+------------+-------------------+----------+---------------+-----------+");
+        System.out.println();
+        System.out.printf("""
+                To run the calculation again enter 'r'.\s
+                To edit the inputs enter the variable index and a new value separated by space.\s
+                You can only edit one input at a time.\s
+                1: Start Date ("%s"),\s
+                2: End Date ("%s"),\s
+                3: Loan Amount (number)\s
+                4: Loan Currency (string)\s
                 5 Base Interest Rate Percent (number)\s
                 6 Margin Percent (number)%n""", Constants.DATE_FORMAT, Constants.DATE_FORMAT);
-        System.out.println("Alternatively,to view loan history type 'h' to quit type 'q'");
+        System.out.println("Alternatively, to calculate a new loan enter 'n', to view loan history enter 'h', to quit enter 'q'");
         return scanner.nextLine();
     }
 
@@ -100,9 +109,10 @@ public class UserIOService {
         }
     }
 
-    static void unrecognisedInput(){
-        System.out.println();
-        System.out.println("Invalid or not recognised input.");
+
+
+    static void unrecognisedInput(String message){
+        System.out.printf("\nInvalid or not recognised input. %s \n", message);
     }
 
 }
