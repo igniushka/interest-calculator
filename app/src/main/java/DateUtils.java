@@ -9,17 +9,18 @@ public class DateUtils {
     static Date parseDate(String date) throws ParseException {
         return sdf.parse(date);
     }
-    static long differenceInDays(Date startDate, Date endDate){
-        long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
-        return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+    static long differenceInDays(Date startDate, Date endDate) {
+        long diffInMils = Math.abs(endDate.getTime() - startDate.getTime());
+        return TimeUnit.DAYS.convert(diffInMils, TimeUnit.MILLISECONDS);
     }
 
     static void incrementDay(Date date) {
         date.setTime(date.getTime() + (1000 * 60 * 60 * 24));
     }
 
-    static String formattedDate(Date date){
-     return  sdf.format(date);
+    static String formattedDate(Date date) {
+        return sdf.format(date);
     }
 
 }
