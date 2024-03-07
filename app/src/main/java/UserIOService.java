@@ -1,6 +1,7 @@
 import exceptions.BadInputException;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class UserIOService {
         try{
             Date startDate = DateUtils.parseDate(variables[0]);
             Date endDate = DateUtils.parseDate(variables[1]);
-            Long loan = Long.parseLong(variables[2]);
+            Double loan = Double.parseDouble(variables[2]);
             String currency = variables[3];
             Double baseInterestRate = Double.parseDouble(variables[4]);
             Double marginRate = Double.parseDouble(variables[5]);
@@ -39,12 +40,32 @@ public class UserIOService {
                 2: End Date ("%s"),\s
                 3: Loan Amount (number)\s
                 4: Loan Currency (string)\s
-                5 Base Interest Rate (number)\s
-                6 Margin (number)%n""", Constants.DATE_FORMAT, Constants.DATE_FORMAT);
+                5 Base Interest Rate Percent (number)\s
+                6 Margin Percent (number)%n""", Constants.DATE_FORMAT, Constants.DATE_FORMAT);
         System.out.println("Alternatively,to view loan history type 'h' to quit type 'q'");
         return scanner.nextLine();
     }
 
+    static void displayHistory(ArrayList<LoanVariables> loanVariables){
+        System.out.println();
+        System.out.println("+-------+------------+------------+-------------------+----------+---------------+-----------+");
+        System.out.println("| Index | Start      | End        | Loan              | Currency | Base Interest | Margin    |");
+        System.out.println("|       | Date       | Date       | Amount            |          | Rate Percent  | Percent   |");
+        System.out.println("+-------+------------+------------+-------------------+----------+---------------+-----------+");
+
+        for (int index = 1; index <= loanVariables.size(); index++){
+            var variables = loanVariables.get(index -1);
+            System.out.printf("| %-5s | %-10s | %-10s | %-17.2f | %-8s | %-13.2f | %-9.2f |\n",
+                    index,
+                    DateUtils.formattedDate(variables.startDate()),
+                    DateUtils.formattedDate(variables.endDate()),
+                    variables.loan(),
+                    variables.currency(),
+                    variables.baseInterestRate(),
+                    variables.marginRate());
+            System.out.println("+-------+------------+------------+-------------------+----------+---------------+-----------+");
+        }
+    }
     static String onHistoryView(){
         System.out.println();
         System.out.println("Enter the record id that you want to run again.");
@@ -81,7 +102,7 @@ public class UserIOService {
 
     static void unrecognisedInput(){
         System.out.println();
-        System.out.println("Input not recognised");
+        System.out.println("Invalid or not recognised input.");
     }
 
 }
