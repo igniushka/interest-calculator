@@ -1,13 +1,21 @@
 import java.util.ArrayList;
 
 public class LoanVariableCache {
-    private ArrayList<LoanVariables> inputs =  new ArrayList<>();
+    private ArrayList<LoanVariables> loanHistory =  new ArrayList<>();
+    private LoanVariables selectedRecord = null;
 
     public void pushLoanInput(LoanVariables input){
-        inputs.add(input);
+        loanHistory.add(input);
     }
 
     public ArrayList<LoanVariables> getAllInputs(){
-        return inputs;
+        return loanHistory;
+    }
+
+    public void setSelectedRecord(LoanVariables selectedRecord) {
+        this.selectedRecord = selectedRecord;
+    }
+    public LoanVariables getSelectedRecord() {
+        return this.selectedRecord;
     }
 }
