@@ -24,6 +24,13 @@ public class UserIOService {
         return scanner.nextLine();
     }
 
+    static String onHistoryView() {
+        System.out.print("""
+                Enter the record id that you want to run again.\s
+                Alternatively, to create a new loan type 'n' to quit type 'q'\n""");
+        return scanner.nextLine();
+    }
+
     static String onSelectedVariables(LoanVariables loanVariables) {
         System.out.println();
         System.out.println("+------------+------------+-------------------+----------+---------------+-----------+");
@@ -74,12 +81,7 @@ public class UserIOService {
         }
     }
 
-    static String onHistoryView() {
-        System.out.print("""
-                Enter the record id that you want to run again.\s
-                Alternatively, to create a new loan type 'n' to quit type 'q'\n""");
-        return scanner.nextLine();
-    }
+
 
     static void printInterestResult(LoanVariables loanVariables) {
         System.out.println();
