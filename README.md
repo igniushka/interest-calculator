@@ -1,9 +1,8 @@
 # interest-calculator
 
-Requires:
-Java17, Gradle: 8.6
+Developed using Java17. Requires gradle 8.6 or other compatible version.
 
-To start the app:
+To start the app run:
 ```
 gradle run -q --console=plain
 ```
