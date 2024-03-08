@@ -46,6 +46,26 @@ public class InterestCalculatorMachine {
         }
     }
 
+    private void handleHistoryMenu() {
+        var userInput = UserIOService.onHistoryView();
+        switch (userInput) {
+            case "n" -> CURRENT_STATE = State.NEW_LOAN;
+            case "q" -> CURRENT_STATE = State.STOP;
+            default -> handleHistoryMenuInput(userInput);
+        }
+    }
+
+    private void handleSelectedRecord() {
+        var userInput = UserIOService.onSelectedVariables(loanCache.getSelectedRecord());
+        switch (userInput) {
+            case "r" -> runSelectedRecord();
+            case "n" -> CURRENT_STATE = State.NEW_LOAN;
+            case "h" -> CURRENT_STATE = State.HISTORY_VIEW;
+            case "q" -> CURRENT_STATE = State.STOP;
+            default -> handleSelectedRowInput(userInput);
+        }
+    }
+
     private void handleLoanInput(String userInput) {
         try {
             LoanVariables loanVariables = parseLoanVariables(userInput);
@@ -63,17 +83,6 @@ public class InterestCalculatorMachine {
         CURRENT_STATE = State.HISTORY_MENU;
     }
 
-    private void handleSelectedRecord() {
-        var userInput = UserIOService.onSelectedVariables(loanCache.getSelectedRecord());
-        switch (userInput) {
-            case "r" -> runSelectedRecord();
-            case "n" -> CURRENT_STATE = State.NEW_LOAN;
-            case "h" -> CURRENT_STATE = State.HISTORY_VIEW;
-            case "q" -> CURRENT_STATE = State.STOP;
-            default -> handleSelectedRowInput(userInput);
-        }
-    }
-
     private void runSelectedRecord() {
         try {
             validateLoanVariables(loanCache.getSelectedRecord());
@@ -82,15 +91,6 @@ public class InterestCalculatorMachine {
             CURRENT_STATE = State.START;
         } catch (Exception e) {
             UserIOService.unrecognisedInput(e.getMessage());
-        }
-    }
-
-    private void handleHistoryMenu() {
-        var userInput = UserIOService.onHistoryView();
-        switch (userInput) {
-            case "n" -> CURRENT_STATE = State.NEW_LOAN;
-            case "q" -> CURRENT_STATE = State.STOP;
-            default -> handleHistoryMenuInput(userInput);
         }
     }
 
