@@ -49,11 +49,12 @@ public class InterestCalculatorMachine {
     private void handleLoanInput(String userInput) {
         try {
             LoanVariables loanVariables = parseLoanVariables(userInput);
+            validateLoanVariables(loanVariables);
             UserIOService.printInterestResult(loanVariables);
             loanCache.pushLoanInput(loanVariables);
             CURRENT_STATE = State.START;
-        } catch (BadInputException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            UserIOService.unrecognisedInput(e.getMessage());
         }
     }
 
@@ -75,11 +76,12 @@ public class InterestCalculatorMachine {
 
     private void runSelectedRecord() {
         try {
+            validateLoanVariables(loanCache.getSelectedRecord());
             UserIOService.printInterestResult(loanCache.getSelectedRecord());
             loanCache.pushLoanInput(loanCache.getSelectedRecord());
             CURRENT_STATE = State.START;
-        } catch (BadInputException e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            UserIOService.unrecognisedInput(e.getMessage());
         }
     }
 
@@ -97,7 +99,7 @@ public class InterestCalculatorMachine {
             int index = Integer.parseInt(userInput);
             loanCache.selectByIndex(index - 1);
             CURRENT_STATE = State.RECORD_SELECTED;
-        } catch (BadInputException | IndexOutOfBoundsException e) {
+        } catch (Exception e) {
             UserIOService.unrecognisedInput(e.getMessage());
         }
     }
@@ -113,23 +115,26 @@ public class InterestCalculatorMachine {
                 throw new BadInputException("Index should be in range 1 - 6.");
             }
             switch (index) {
-                case 1 ->
-                        loanCache.setSelectedRecord(loanCache.getSelectedRecord().setStartDate(DateUtils.parseDate(elements[1])));
-                case 2 ->
-                        loanCache.setSelectedRecord(loanCache.getSelectedRecord().setEndDate(DateUtils.parseDate(elements[1])));
-                case 3 ->
-                        loanCache.setSelectedRecord(loanCache.getSelectedRecord().setLoan(Double.parseDouble(elements[1])));
+                case 1 -> loanCache.setSelectedRecord(loanCache.getSelectedRecord().setStartDate(DateUtils.parseDate(elements[1])));
+                case 2 -> loanCache.setSelectedRecord(loanCache.getSelectedRecord().setEndDate(DateUtils.parseDate(elements[1])));
+                case 3 -> loanCache.setSelectedRecord(loanCache.getSelectedRecord().setLoan(Double.parseDouble(elements[1])));
                 case 4 -> loanCache.setSelectedRecord(loanCache.getSelectedRecord().setCurrency(elements[1]));
-                case 5 ->
-                        loanCache.setSelectedRecord(loanCache.getSelectedRecord().setBaseInterestRate(Double.parseDouble(elements[1])));
-                case 6 ->
-                        loanCache.setSelectedRecord(loanCache.getSelectedRecord().setMarginRate(Double.parseDouble(elements[1])));
+                case 5 -> loanCache.setSelectedRecord(loanCache.getSelectedRecord().setBaseInterestRate(Double.parseDouble(elements[1])));
+                case 6 -> loanCache.setSelectedRecord(loanCache.getSelectedRecord().setMarginRate(Double.parseDouble(elements[1])));
             }
         } catch (Exception e) {
             UserIOService.unrecognisedInput(e.getMessage());
         }
     }
 
+    private void validateLoanVariables(LoanVariables variables){
+        if (variables.endDate().before(variables.startDate())){
+            throw new BadInputException("Start date cannot be later than end date.");
+        }
+        if (variables.loan() < 0 || variables.baseInterestRate() < 0 || variables.marginRate() < 0){
+            throw new BadInputException("loan, base interest rate and margin rate cannot be less than 0.");
+        }
+    }
 
     private LoanVariables parseLoanVariables(String userInput) throws BadInputException {
         String[] variables = userInput.split("\\s+");

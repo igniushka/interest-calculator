@@ -6,7 +6,7 @@ public class UserIOService {
     private static final Scanner scanner = new Scanner(System.in);
 
     static String onStart() {
-        System.out.println("\nTo calculate a new loan enter 'n' \nTo view loan history enter 'h' \nto quit enter 'q'");
+        System.out.println("\nTo calculate a new loan enter 'n' \nTo view loan history enter 'h' \nto quit enter 'q'\n");
         return scanner.nextLine();
     }
 
@@ -30,16 +30,17 @@ public class UserIOService {
         System.out.println("| Start      | End        | Loan              | Currency | Base Interest | Margin    |");
         System.out.println("| Date       | Date       | Amount            |          | Rate Percent  | Percent   |");
         System.out.println("+------------+------------+-------------------+----------+---------------+-----------+");
-        System.out.printf("| %-10s | %-10s | %-17.2f | %-8s | %-13.2f | %-9.2f |%n",
+        System.out.printf("| %-10s | %-10s | %-17.2f | %-8s | %-13.2f | %-9.2f |\n",
                 DateUtils.formattedDate(loanVariables.startDate()),
                 DateUtils.formattedDate(loanVariables.endDate()),
                 loanVariables.loan(),
                 loanVariables.currency(),
                 loanVariables.baseInterestRate(),
                 loanVariables.marginRate());
+        System.out.println("+------------+------------+-------------------+----------+---------------+-----------+");
         System.out.printf("""
                         To run the calculation again enter 'r'.\s
-                        To edit the inputs enter the variable index and a new value separated by space.\s
+                        To edit the inputs enter the variable index (listed below) and a new value separated by space.\s
                         You can only edit one input at a time.\s
                         1: Start Date ("%s"),\s
                         2: End Date ("%s"),\s
@@ -61,7 +62,7 @@ public class UserIOService {
 
         for (int index = 1; index <= loanVariables.size(); index++) {
             var variables = loanVariables.get(index - 1);
-            System.out.printf("| %-5s | %-10s | %-10s | %-17.2f | %-8s | %-13.2f | %-9.2f |%n",
+            System.out.printf("| %-5s | %-10s | %-10s | %-17.2f | %-8s | %-13.2f | %-9.2f |\n",
                     index,
                     DateUtils.formattedDate(variables.startDate()),
                     DateUtils.formattedDate(variables.endDate()),
@@ -76,7 +77,7 @@ public class UserIOService {
     static String onHistoryView() {
         System.out.print("""
                 Enter the record id that you want to run again.\s
-                Alternatively, to create a new loan type 'n' to quit type 'q'%n""");
+                Alternatively, to create a new loan type 'n' to quit type 'q'\n""");
         return scanner.nextLine();
     }
 
@@ -96,7 +97,7 @@ public class UserIOService {
             var accruedDailyInterest = day * dailyInterest;
             var totalInterestOverPeriod = day * (dailyInterest + dailyMargin);
             DateUtils.incrementDay(date);
-            System.out.printf("| %-10s | %-7s | %-14.2f | %-14.2f | %-14.2f | %-8s |%n",
+            System.out.printf("| %-10s | %-7s | %-14.2f | %-14.2f | %-14.2f | %-8s |\n",
                     DateUtils.formattedDate(date),
                     day,
                     dailyInterest,
@@ -108,7 +109,7 @@ public class UserIOService {
     }
 
     static void unrecognisedInput(String message) {
-        System.out.printf("\nInvalid or not recognised input. %s %n", message);
+        System.out.printf("\nInvalid or not recognised input. %s \n", message);
     }
 
 }
