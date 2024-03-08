@@ -20,9 +20,6 @@ tasks.named<JavaExec>("run") {
 }
 
 dependencies {
-    // Use JUnit Jupiter for testing.
-//    implementation("org.jline:jline:3.25.1")
-
     testImplementation(libs.junit.jupiter)
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
