@@ -53,7 +53,7 @@ public class UserIOService {
         return scanner.nextLine();
     }
 
-    static void displayHistory(ArrayList<LoanVariables> loanVariables) {
+    static void onDisplayHistory(ArrayList<LoanVariables> loanVariables) {
         System.out.println();
         System.out.println("+-------+------------+------------+-------------------+----------+---------------+-----------+");
         System.out.println("| Index | Start      | End        | Loan              | Currency | Base Interest | Margin    |");

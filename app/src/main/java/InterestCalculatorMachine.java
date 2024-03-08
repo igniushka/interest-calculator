@@ -59,7 +59,7 @@ public class InterestCalculatorMachine {
     }
 
     private void handleLoanHistory() {
-        UserIOService.displayHistory(loanCache.getHistory());
+        UserIOService.onDisplayHistory(loanCache.getHistory());
         CURRENT_STATE = State.HISTORY_MENU;
     }
 
